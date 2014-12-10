@@ -35,7 +35,6 @@ int main(int argc, char** argv)
 	vector<Vec4i> hierarchy;
 	vector<vector<Point> > contour;
 
-//	numFrame = 1;
 	cvtColor( refFrame, refFrameGry, CV_BGR2GRAY);
 
 	for(int i = 0; i < numFrame; i++)
@@ -49,9 +48,11 @@ int main(int argc, char** argv)
 
 		#ifdef DE 
 		namedWindow("Reference", CV_WINDOW_NORMAL);
+		cvMoveWindow("Reference", 70, 100);
 		imshow("Reference", refFrame);
 
 		namedWindow("Current", CV_WINDOW_NORMAL);
+		cvMoveWindow("Current", 380, 100);
 		imshow("Current", curFrame);
 		#endif
 
@@ -61,6 +62,7 @@ int main(int argc, char** argv)
 	
 		#ifdef DE 
 		namedWindow("Diff", CV_WINDOW_NORMAL);
+		cvMoveWindow("Diff", 800, 100);
 		imshow("Diff", diffImg);
 		#endif
 
@@ -72,6 +74,7 @@ int main(int argc, char** argv)
 		
 		#ifdef DE 
 		namedWindow("Threshold", CV_WINDOW_NORMAL);
+		cvMoveWindow("Threshold", 75, 400);
 		imshow("Threshold", thrImg);
 		#endif
 
@@ -99,6 +102,7 @@ int main(int argc, char** argv)
 
 		#ifdef DE 
 		namedWindow("Track", CV_WINDOW_NORMAL);
+		cvMoveWindow("Track", 400, 400);
 		imshow("Track", drawing);
 		#endif
 
