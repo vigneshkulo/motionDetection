@@ -1,7 +1,16 @@
+/* Non - Real Real Time */
 1. To Compile
 	g++ motionDetection.cpp `pkg-config opencv --cflags --libs` -o track
 
 2. To Run
 	./track
 
+/* Real Time */
+1. Install liblitmus library and replace the base_task.c inside liblitmus/bin file by the given base_task.c file
 
+2. Replace the Makefile in liblitmus folder with the Make file given
+
+3. To Compile - Inside liblitmus Folder
+	make
+4. To Run
+	./base_task
