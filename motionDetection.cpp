@@ -1,3 +1,4 @@
+#include<time.h>
 #include<stdio.h>
 #include<unistd.h>
 #include<iostream>
@@ -9,6 +10,7 @@
 #define SEN		50
 
 #define DE
+//#define LOG_RESP
 
 using namespace cv;
 using namespace std;
@@ -27,8 +29,6 @@ int main(int argc, char** argv)
 	}
 
 	printf("* Num of Frames: %lf\n", capture.get(CV_CAP_PROP_FRAME_COUNT));
-	printf("* FPS: %lf\n", capture.get(CV_CAP_PROP_FPS));
-	printf("* Frame#: %lf\n", capture.get(CV_CAP_PROP_POS_FRAMES));
 	
 	char name[25];
 	int numFrame = capture.get(CV_CAP_PROP_FRAME_COUNT);
@@ -37,22 +37,29 @@ int main(int argc, char** argv)
 
 	cvtColor( refFrame, refFrameGry, CV_BGR2GRAY);
 
+	#ifdef LOG_RESP 
+	char fileName[20];
+	struct timespec tpStart;
+	struct timespec tpEnd;
+	sprintf(fileName, "Resp%s", argv[1]);
+	FILE* fpOut = fopen( fileName, "w+");
+	#endif
+
 	for(int i = 0; i < numFrame; i++)
 	{
-		capture.read(curFrame);
-
-		#if 0
-                sprintf(name, "images/frame%lf.jpg", capture.get(CV_CAP_PROP_POS_FRAMES));
-                imwrite(name, curFrame);
+		#ifdef LOG_RESP 
+		clock_gettime (CLOCK_REALTIME, &tpStart);
 		#endif
+
+		capture.read(curFrame);
 
 		#ifdef DE 
 		namedWindow("Reference", CV_WINDOW_NORMAL);
-		cvMoveWindow("Reference", 70, 100);
+		cvMoveWindow("Reference", 200, 50);
 		imshow("Reference", refFrame);
 
 		namedWindow("Current", CV_WINDOW_NORMAL);
-		cvMoveWindow("Current", 380, 100);
+		cvMoveWindow("Current", 600, 50);
 		imshow("Current", curFrame);
 		#endif
 
@@ -60,12 +67,6 @@ int main(int argc, char** argv)
 
 		absdiff(refFrameGry, curFrameGry, diffImg);
 	
-		#ifdef DE 
-		namedWindow("Diff", CV_WINDOW_NORMAL);
-		cvMoveWindow("Diff", 800, 100);
-		imshow("Diff", diffImg);
-		#endif
-
 		threshold (diffImg, thrImg, SEN, 255, THRESH_BINARY);
 
 		blur( thrImg, thrImg, Size(BLUR_SIZE, BLUR_SIZE));
@@ -74,7 +75,7 @@ int main(int argc, char** argv)
 		
 		#ifdef DE 
 		namedWindow("Threshold", CV_WINDOW_NORMAL);
-		cvMoveWindow("Threshold", 75, 400);
+		cvMoveWindow("Threshold", 200, 400);
 		imshow("Threshold", thrImg);
 		#endif
 
@@ -83,11 +84,10 @@ int main(int argc, char** argv)
 		vector<Rect> boundRect (contour.size());
 		vector<vector<Point> > con_poly(contour.size());
 
-		Mat drawing = curFrame; //Mat::zeros( thrImg.size(), CV_8UC3 );
+		Mat drawing = curFrame; 
 
-		RNG rng(12345);
+		Scalar color = Scalar(0, 0, 0);
 
-		#if 1
 		for(int i = 0; i < contour.size(); i++)
 		{
 			approxPolyDP ( Mat (contour[i]), con_poly[i], 3, true);
@@ -95,20 +95,23 @@ int main(int argc, char** argv)
 		}
 		for(int i = 0; i < contour.size(); i++)
 		{
-			Scalar color = Scalar(rng.uniform(0,255), rng.uniform(0, 255), rng.uniform(0, 255));
 			rectangle(drawing, boundRect[i].tl(), boundRect[i].br(), color, 2, 8, 0);
 		}
-		#endif
 
 		#ifdef DE 
 		namedWindow("Track", CV_WINDOW_NORMAL);
-		cvMoveWindow("Track", 400, 400);
+		cvMoveWindow("Track", 600, 400);
 		imshow("Track", drawing);
 		#endif
 
 		waitKey(20);
+
+		#ifdef LOG_RESP 
+		clock_gettime (CLOCK_REALTIME, &tpEnd);
+		fprintf(fpOut, "%ld, %ld\n", tpEnd.tv_sec - tpStart.tv_sec, tpEnd.tv_nsec - tpStart.tv_nsec);
+		#endif
 	}
-	waitKey(0);
 	return 0;
 }
+
 

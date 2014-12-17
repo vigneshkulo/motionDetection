@@ -1,0 +1,32 @@
+1. Download Linux Kernel and LITMUS RT patch from 
+	https://wiki.litmus-rt.org/litmus/InstallationInstructions
+	
+	Linux 3.10.41 Kernel source
+		wget http://www.kernel.org/pub/linux/kernel/v3.x/linux-3.10.41.tar.gz
+	Untar
+		tar xvf linux-3.10.41.tar.gz
+
+	LITMUS RT patch
+		wget http://www.litmus-rt.org/releases/2014.2/litmus-rt-2014.2.patch
+
+	mv linux-3.10.41 litmus-rt
+	cd litmus-rt
+
+2. Patch the Linux kernel source
+	patch -p1 < ../litmus-rt-2014.2.patch
+
+3. Kernel Configuration
+	make menuconfig
+
+4. Install Fakeroot
+	sudo apt-get install build-essential kernel-package libncurses5-dev bzip2 fakeroot
+
+5. Kernel compilation and build => Takes 6 to 8 hours to finish
+	fakeroot make-kpkg -j 4 --initrd --append-to-version=-litmusrt kernel_image kernel_headers
+
+6. Install packages
+	cd ../	
+	sudo dpkg -i *.deb
+
+7. Reboot
+	sudo reboot

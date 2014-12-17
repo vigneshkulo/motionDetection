@@ -1,0 +1,6 @@
+1. Replace base_task.c given here with the base_task.c in $DIR/liblitmus/bin
+2. Replace Makefile given here with the Makefile in $DIR/liblitmus
+
+*** Take backup of both original files ***
+*** When using Feather Trace tools compile the ft_tools before replacing with this Makefile.
+    Feather Trace tools is connected to liblitmus, hence compile all tools before replacing Makefile ***
