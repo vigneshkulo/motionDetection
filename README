@@ -19,6 +19,8 @@
 	4. To Run
 		./base_task
 
-	# ./base_task can be replace with the executables given. Make sure appropriate schedulers are set to run
-	application. Example: use "./setsched PSN-EDF" to set scheduler as PSN-EDF and to run "./trackPEDF0" in core 0
+	# ./base_task can be replace with the executables given. 
+	# Make sure appropriate schedulers are set to run application. 
+	# Example: use "./setsched PSN-EDF" to set scheduler as PSN-EDF 
+	# To run "./trackPEDF0" in core 0
 
