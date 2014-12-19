@@ -1,9 +1,24 @@
-1. To Compile
-	make
+* Non Real time
+	1. To Compile
+		make
 
-2. To Run
-	./track
+	2. To Run
+		./track
 
 # Watch video - How to install Litmus RT in Ubuntu
 	https://www.youtube.com/watch?v=PGy5XrI6lLs
+
+* Real Time
+	1. Go to $DIR, where DIR is the directory which has liblitmus folder
+	
+	2. cd liblitmus
+
+	3. To Compile
+		make
+
+	4. To Run
+		./base_task
+
+	# ./base_task can be replace with the executables given. Make sure appropriate schedulers are set to run
+	application. Example: use "./setsched PSN-EDF" to set scheduler as PSN-EDF and to run "./trackPEDF0" in core 0
 
