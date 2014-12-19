@@ -29,7 +29,7 @@ for line in fp:
 # Show the plot generated
 plt.plot(over)
 # Replace the 'Scheduling Latency' with 'Context Switch Overhead' when tracing for Context switch overhead
-plt.ylabel('Scheduling Latency')
+plt.ylabel('Context Switch Overhead')
 plt.xlabel('Cycles')
 string = "Linux" + str(cpu)
 plt.title(string)

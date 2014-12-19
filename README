@@ -1,5 +1,5 @@
 1. To Compile
-	g++ motionDetection.cpp `pkg-config opencv --cflags --libs` -o track
+	make
 
 2. To Run
 	./track
